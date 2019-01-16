@@ -1,20 +1,37 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import './styles/App.css';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import logo from './logo.svg';
 
+import { fetchPosts, fetchComents } from './actions/index';
 
-// class App extends Component {
-//   render() {
-//     return (
-//       <a href="#"> and </a>
-//     );
-//   }
-// }
+class App extends Component {
+ 
 
-const App = () => {
+   componentDidMount(){
+        this.props.onFetchPosts();
+        this.props.onFetchComents();
 
-};
+    }
 
-export default App;
+  render() {
+    return (
+      <h1> Hi world </h1>
+    );
+  }
+}
+
+export default connect(
+    state =>({
+        posts: state.posts,
+        comments: state.comments
+    }),
+    dispatch =>({
+        onFetchPosts: () =>{
+            dispatch(fetchPosts());
+        },
+        onFetchComents: (row) =>{
+            dispatch(fetchComents())
+        }
+    })
+)(App);
